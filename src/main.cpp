@@ -1,17 +1,17 @@
 #include <Arduino.h>
 #include <EEPROM.h>
 
-#include "Drive\Peripherals.h"
-#include "Drive\WiFiConfig.h"
-#include "Drive\UART.h"
-#include "Dynamics\Servo.h"
-#include "Communication\JsonConfig.h"
-#include "Dynamics\FKIK.h"
+#include "Drive/Peripherals.h"
+#include "Drive/WiFiConfig.h"
+#include "Drive/UART.h"
+#include "Dynamics/Servo.h"
+#include "Communication/JsonConfig.h"
+#include "Dynamics/FKIK.h"
 
 #include "FashionStar_UartServo.h"
 #include "FashionStar_UartServoProtocol.h"
 
-#include "Drive\BTConfig.h"
+#include "Drive/BTConfig.h"
 
 void Task1code(void *pvParameters);
 void Task2code(void *pvParameters);

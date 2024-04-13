@@ -1,5 +1,5 @@
 #include "Servo.h"
-#include "Communication\JsonConfig.h"
+#include "Communication/JsonConfig.h"
 #include "FKIK.h"
 
 extern String cmd;

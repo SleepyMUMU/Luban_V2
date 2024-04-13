@@ -1,7 +1,7 @@
 #ifndef _JSONCONFIG_H_
 #define _JSONCONFIG_H_
 
-#include "Drive\WiFiConfig.h"
+#include "Drive/WiFiConfig.h"
 #include "cJSON.h"
 
 extern String DefaultTnitMode;
