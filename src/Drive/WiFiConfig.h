@@ -15,10 +15,13 @@ extern WiFiClient client;
 extern WiFiClient Nano;
 extern HTTPClient http;
 
+
 void WiFiInit();
 void OTAconfig();
 void TCPServer();
 void httpServer();
 String TCPcom();
 String STMcom();
+String readFromStream(Stream& stream);
+
 #endif

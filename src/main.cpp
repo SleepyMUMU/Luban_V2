@@ -15,6 +15,8 @@
 
 void Task1code(void *pvParameters);
 void Task2code(void *pvParameters);
+void STM32COMTask(void *pvParameters);
+void tcpServerTask(void *pvParameters);
 
 String cmd;
 
@@ -34,8 +36,40 @@ void setup()
     JsonInit();
     ServoInit();
 
-    xTaskCreatePinnedToCore(Task1code, "Task1", 10000, NULL, 1, NULL, 0);
-    xTaskCreatePinnedToCore(Task2code, "Task2", 10000, NULL, 1, NULL, 1);
+    xTaskCreatePinnedToCore(STM32COMTask, "STM32COM", 2048, NULL, 1, NULL, 0);
+    xTaskCreatePinnedToCore(tcpServerTask, "tcpServer", 2048, NULL, 1, NULL, 1);
+
+    // xTaskCreatePinnedToCore(Task1code, "Task1", 10000, NULL, 1, NULL, 0);
+    // xTaskCreatePinnedToCore(Task2code, "Task2", 10000, NULL, 1, NULL, 1);
+}
+void STM32COMTask(void *pvParameters)
+{
+    while (1)
+    {
+        if (STM32COM.available())
+        {
+            cmd = readFromStream(STM32COM);
+        }
+        else
+        {
+            vTaskDelay(1); // Delay the task for 1 tick (1 millisecond)
+        }
+    }
+}
+
+void tcpServerTask(void *pvParameters)
+{
+    while (1)
+    {
+        if (client.available())
+        {
+            cmd = readFromStream(client);
+        }
+        else
+        {
+            vTaskDelay(1); // Delay the task for 1 tick (1 millisecond)
+        }
+    }
 }
 
 void Task1code(void *pvParameters)
@@ -43,34 +77,34 @@ void Task1code(void *pvParameters)
     String temp;
     while (1)
     {
-        if (WiFi.isConnected())
-        {
-            if (client.available())
-            {
-                cmd = TCPcom();
-                temp = cmd;
-            }
-            if (Nano.available())
-            {
-                client.write(Nano.read());
-            }
-        }
+        // if (WiFi.isConnected())
+        // {
+        //     if (client.available())
+        //     {
+        //         cmd = TCPcom();
+        //         temp = cmd;
+        //     }
+        //     if (Nano.available())
+        //     {
+        //         client.write(Nano.read());
+        //     }
+        // }
 
-        if (STM32COM.available())
-        {
-            while (STM32COM.available())
-            {
-                cmd += char(STM32COM.read());
-            }
-            temp = cmd;
-        }
+        // if (STM32COM.available())
+        // {
+        //     while (STM32COM.available())
+        //     {
+        //         cmd += char(STM32COM.read());
+        //     }
+        //     temp = cmd;
+        // }
 
-        if (temp.length() != 0)
-        {
-            flag = 1;
-            DebugSerial.println(temp);
-            temp = "";
-        }
+        // if (temp.length() != 0)
+        // {
+        //     flag = 1;
+        //     DebugSerial.println(temp);
+        //     temp = "";
+        // }
 
         delay(1);
     }

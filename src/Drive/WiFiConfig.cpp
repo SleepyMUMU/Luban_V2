@@ -47,13 +47,15 @@ void WiFiInit()
   Beep(300);
 }
 
-String readFromStream(Stream& stream)
+String readFromStream(Stream &stream)
 {
   String receiveData;
-  while (stream.available())
+
+  if (stream.available())
   {
-    receiveData += char(stream.read());
+    receiveData = stream.readString();
   }
+
   return receiveData;
 }
 
