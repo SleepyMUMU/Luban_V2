@@ -55,7 +55,6 @@ String readFromStream(Stream &stream)
   {
     receiveData = stream.readString();
   }
-
   return receiveData;
 }
 

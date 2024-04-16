@@ -18,6 +18,9 @@ void Task2code(void *pvParameters);
 void STM32COMTask(void *pvParameters);
 void tcpServerTask(void *pvParameters);
 
+#define Core0 0
+#define Core1 1
+
 String cmd;
 
 bool flag = 0;
@@ -36,8 +39,8 @@ void setup()
     JsonInit();
     ServoInit();
 
-    xTaskCreatePinnedToCore(STM32COMTask, "STM32COM", 2048, NULL, 1, NULL, 0);
-    xTaskCreatePinnedToCore(tcpServerTask, "tcpServer", 2048, NULL, 1, NULL, 1);
+    xTaskCreatePinnedToCore(STM32COMTask, "STM32COM", 2048, NULL, 1, NULL, Core0);
+    xTaskCreatePinnedToCore(tcpServerTask, "tcpServer", 2048, NULL, 1, NULL, Core1);
 
     // xTaskCreatePinnedToCore(Task1code, "Task1", 10000, NULL, 1, NULL, 0);
     // xTaskCreatePinnedToCore(Task2code, "Task2", 10000, NULL, 1, NULL, 1);
