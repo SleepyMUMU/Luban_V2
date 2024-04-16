@@ -33,17 +33,17 @@ void setup()
     UARTinit();
     PeripheralsInit();
     WiFiInit();
-    TCPServer();
+    TCPServerInit();
     OTAconfig();
-    // httpServer();
+    //httpServer();
     JsonInit();
     ServoInit();
+
+    DebugSerial.print("*********Robot-LUBAN*********");
 
     xTaskCreatePinnedToCore(STM32COMTask, "STM32COM", 2048, NULL, 1, NULL, Core0);
     xTaskCreatePinnedToCore(tcpServerTask, "tcpServer", 2048, NULL, 1, NULL, Core1);
 
-    // xTaskCreatePinnedToCore(Task1code, "Task1", 10000, NULL, 1, NULL, 0);
-    // xTaskCreatePinnedToCore(Task2code, "Task2", 10000, NULL, 1, NULL, 1);
 }
 void STM32COMTask(void *pvParameters)
 {
@@ -75,48 +75,8 @@ void tcpServerTask(void *pvParameters)
     }
 }
 
-void Task1code(void *pvParameters)
-{
-    String temp;
-    while (1)
-    {
-        // if (WiFi.isConnected())
-        // {
-        //     if (client.available())
-        //     {
-        //         cmd = TCPcom();
-        //         temp = cmd;
-        //     }
-        //     if (Nano.available())
-        //     {
-        //         client.write(Nano.read());
-        //     }
-        // }
-
-        // if (STM32COM.available())
-        // {
-        //     while (STM32COM.available())
-        //     {
-        //         cmd += char(STM32COM.read());
-        //     }
-        //     temp = cmd;
-        // }
-
-        // if (temp.length() != 0)
-        // {
-        //     flag = 1;
-        //     DebugSerial.println(temp);
-        //     temp = "";
-        // }
-
-        delay(1);
-    }
-}
-
 void Task2code(void *pvParameters)
 {
-
-    DebugSerial.print("*********Robot-LUBAN*********");
 
     while (1)
     {
@@ -335,7 +295,7 @@ void MainLogicTree()
             if (STM32COM.available())
             {
                 cmd = "";
-                cmd = STMcom();
+                cmd = readFromStream(STM32COM);
                 DebugSerial.print("[STM]Report:");
                 DebugSerial.println(cmd);
             }

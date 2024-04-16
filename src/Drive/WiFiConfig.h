@@ -18,10 +18,8 @@ extern HTTPClient http;
 
 void WiFiInit();
 void OTAconfig();
-void TCPServer();
+void TCPServerInit();
 void httpServer();
-String TCPcom();
-String STMcom();
 String readFromStream(Stream& stream);
 
 #endif

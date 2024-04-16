@@ -18,8 +18,8 @@ const int NanoPort = 1348;
 
 String url = "http://192.168.31.193:8088/robotData/data"; // HTTP服务地址
 
-IPAddress INTROIP(192, 168, 137, 99);
-IPAddress local_IP(192, 168, 31, 99);
+// IPAddress INTROIP(192, 168, 137, 99);
+IPAddress local_IP(192, 168, 137, 99);
 
 IPAddress gateway(192, 168, 137, 1);
 IPAddress subnet(255, 255, 255, 0);
@@ -34,7 +34,7 @@ void WiFiInit()
 {
   u64_t TimeOut = 10000, NowTime = 0;
   u32_t DelayTime = 500;
-  WiFi.config(INTROIP, gateway, subnet, primaryDNS, secondaryDNS);
+  WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS);
   WiFi.mode(WIFI_STA);
   WiFi.begin(SSID, Password);
 
@@ -56,16 +56,6 @@ String readFromStream(Stream &stream)
     receiveData = stream.readString();
   }
   return receiveData;
-}
-
-String TCPcom()
-{
-  return readFromStream(client);
-}
-
-String STMcom()
-{
-  return readFromStream(STM32COM);
 }
 
 void httpServer()
@@ -94,26 +84,13 @@ void httpServer()
   }
 }
 
-void TCPServer()
+void TCPServerInit()
 {
-  // DebugSerial.println("[TCP]\tConnecting to server...");
+  DebugSerial.println("[TCP]\tConnecting to server...");
   if (client.connect(NitroIP, ServerPort))
   {
     DebugSerial.println("[TCP]Connected to server");
     DebugSerial.println("[ESP]Hi,ESP connected.");
-    // client.println("Hello, Server!"); // 向服务器发送数据
-
-    // while (client.connected())
-    // {
-    //     if (client.available())
-    //     {
-    //         char c = client.read();
-    //         Serial.write(c); // 将从服务器接收到的数据打印到串口
-    //     }
-    // }
-
-    // client.stop();
-    // DebugSerial.println("[TCP]\tDisconnected from server");
   }
   else
   {
