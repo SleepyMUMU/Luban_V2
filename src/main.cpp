@@ -22,8 +22,6 @@ bool flag = 0;
 
 void MainLogicTree();
 
-
-
 void setup()
 {
     // BluetoothInit();

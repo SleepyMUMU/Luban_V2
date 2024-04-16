@@ -8,12 +8,12 @@ const char *Password_1 = "woaiwuxie1";
 const char *SSID = "MUMUSNITRO";
 const char *Password = "yssahttn";
 
-const char *NitroIP = "192.168.137.1"; 
+const char *NitroIP = "192.168.137.1";
 
-const char *ServerIP = "192.168.137.1"; 
-const int ServerPort = 1347; 
+const char *ServerIP = "192.168.137.1";
+const int ServerPort = 1347;
 
-const char *NanoIP = "192.168.31.193"; 
+const char *NanoIP = "192.168.31.193";
 const int NanoPort = 1348;
 
 String url = "http://192.168.31.193:8088/robotData/data"; // HTTP服务地址
@@ -23,8 +23,8 @@ IPAddress local_IP(192, 168, 31, 99);
 
 IPAddress gateway(192, 168, 137, 1);
 IPAddress subnet(255, 255, 255, 0);
-IPAddress primaryDNS(223, 5, 5, 5); 
-IPAddress secondaryDNS(119, 29, 29, 29); 
+IPAddress primaryDNS(223, 5, 5, 5);
+IPAddress secondaryDNS(119, 29, 29, 29);
 
 WiFiClient client;
 WiFiClient Nano;
@@ -47,23 +47,24 @@ void WiFiInit()
   Beep(300);
 }
 
+String readFromStream(Stream& stream)
+{
+  String receiveData;
+  while (stream.available())
+  {
+    receiveData += char(stream.read());
+  }
+  return receiveData;
+}
+
 String TCPcom()
 {
-  String ReceiveData;
-  while (client.available())
-  {
-    ReceiveData = ReceiveData + char(client.read());
-  }
-  return ReceiveData;
+  return readFromStream(client);
 }
+
 String STMcom()
 {
-  String ReceiveData;
-  while (STM32COM.available())
-  {
-    ReceiveData = ReceiveData + char(STM32COM.read());
-  }
-  return ReceiveData;
+  return readFromStream(STM32COM);
 }
 
 void httpServer()
